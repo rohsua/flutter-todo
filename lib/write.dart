@@ -15,6 +15,8 @@ class TodoWritePage extends StatefulWidget {
 }
 
 class _TodoWritePageState extends State<TodoWritePage> {
+  TextEditingController nameController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -28,6 +30,25 @@ class _TodoWritePageState extends State<TodoWritePage> {
           )
         ],
       ),
+      body: ListView.builder(itemBuilder: (ctx, idx) {
+        if (idx == 0) {
+          return Container(child: Text("제목"));
+        } else if (idx == 1) {
+          return Container(
+              child: TextField(
+            controller: nameController,
+          ));
+        } else if (idx == 2) {
+          return Container(
+              child: Row(
+            children: [
+              Text("색상"),
+              Container(width: 10, height: 10, color: Color(widget.todo.color))
+            ],
+          ));
+        }
+        return Container();
+      }),
     );
   }
 }
