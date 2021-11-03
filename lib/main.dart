@@ -65,10 +65,64 @@ class _MyHomePageState extends State<MyHomePage> {
                         style: TextStyle(
                             fontSize: 20, fontWeight: FontWeight.bold)));
               } else if (idx == 1) {
+                List<Todo> undone = todos.where((t) {
+                  return t.done == 0;
+                }).toList();
+
                 return Container(
                     child: Column(
-                  children: List.generate(todos.length, (_idx) {
-                    Todo t = todos[_idx];
+                  children: List.generate(undone.length, (_idx) {
+                    Todo t = undone[_idx];
+
+                    return Container(
+                        decoration: BoxDecoration(
+                            color: Color(t.color),
+                            borderRadius: BorderRadius.circular(16)),
+                        padding:
+                            EdgeInsets.symmetric(vertical: 12, horizontal: 10),
+                        margin:
+                            EdgeInsets.symmetric(vertical: 8, horizontal: 20),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text(
+                                  t.title,
+                                  style: TextStyle(
+                                      fontSize: 18,
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.bold),
+                                ),
+                                Text(t.done == 0 ? "미완료" : "완료",
+                                    style: TextStyle(
+                                        fontSize: 18, color: Colors.white))
+                              ],
+                            ),
+                            Container(height: 8),
+                            Text(t.memo,
+                                style: TextStyle(
+                                    fontSize: 18, color: Colors.white))
+                          ],
+                        ));
+                  }),
+                ));
+              } else if (idx == 2) {
+                return Container(
+                    margin: EdgeInsets.symmetric(vertical: 12, horizontal: 20),
+                    child: Text("완료된 하루",
+                        style: TextStyle(
+                            fontSize: 20, fontWeight: FontWeight.bold)));
+              } else if (idx == 3) {
+                List<Todo> done = todos.where((t) {
+                  return t.done == 1;
+                }).toList();
+
+                return Container(
+                    child: Column(
+                  children: List.generate(done.length, (_idx) {
+                    Todo t = done[_idx];
 
                     return Container(
                         decoration: BoxDecoration(
