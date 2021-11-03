@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:todo/write.dart';
 
 import 'data/todo.dart';
+import 'data/util.dart';
 
 void main() {
   runApp(MyApp());
@@ -56,6 +58,22 @@ class _MyHomePageState extends State<MyHomePage> {
     return Scaffold(
         appBar:
             PreferredSize(child: AppBar(), preferredSize: Size.fromHeight(0)),
+        floatingActionButton: FloatingActionButton(
+          child: Icon(Icons.add, color: Colors.white),
+          onPressed: () {
+            // todo: 화면 이동
+            Navigator.of(context).push(MaterialPageRoute(
+                builder: (ctx) => TodoWritePage(
+                      todo: Todo(
+                          title: "",
+                          color: 0,
+                          memo: "",
+                          category: "",
+                          done: 0,
+                          date: Utils.getFormatTime(DateTime.now())),
+                    )));
+          },
+        ),
         body: ListView.builder(
             itemBuilder: (ctx, idx) {
               if (idx == 0) {
