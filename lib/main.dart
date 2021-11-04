@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:todo/data/database.dart';
 import 'package:todo/write.dart';
 
 import 'data/todo.dart';
@@ -31,25 +32,41 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+  final dbHelper = DatabaseHelper.instance;
+  int selectIndex = 0;
+
   List<Todo> todos = [
-    Todo(
-        title: "패스트캠퍼스 강의듣기1",
-        memo: "앱개발 입문강의 듣기",
-        color: Colors.redAccent.value,
-        done: 0,
-        category: "공부",
-        date: 20211103),
-    Todo(
-        title: "패스트캠퍼스 강의듣기2",
-        memo: "앱개발 입문강의 듣기",
-        color: Colors.blue.value,
-        done: 1,
-        category: "공부",
-        date: 20211103)
+    // Todo(
+    //     title: "패스트캠퍼스 강의듣기1",
+    //     memo: "앱개발 입문강의 듣기",
+    //     color: Colors.redAccent.value,
+    //     done: 0,
+    //     category: "공부",
+    //     date: 20211103),
+    // Todo(
+    //     title: "패스트캠퍼스 강의듣기2",
+    //     memo: "앱개발 입문강의 듣기",
+    //     color: Colors.blue.value,
+    //     done: 1,
+    //     category: "공부",
+    //     date: 20211103)
   ];
+
+  List<Todo> allTodo = [];
+
+  void getTodayTodo() async {
+    todos = await dbHelper.getTodoByDate(Utils.getFormatTime(DateTime.now()));
+    setState(() {});
+  }
+
+  void getAllTodo() async {
+    allTodo = await dbHelper.getAllTodo();
+    setState(() {});
+  }
 
   @override
   void initState() {
+    getTodayTodo();
     super.initState();
   }
 
@@ -72,9 +89,7 @@ class _MyHomePageState extends State<MyHomePage> {
                           done: 0,
                           date: Utils.getFormatTime(DateTime.now())),
                     )));
-            setState(() {
-              todos.add(todo);
-            });
+            getTodayTodo();
           },
         ),
         body: ListView.builder(
@@ -106,10 +121,7 @@ class _MyHomePageState extends State<MyHomePage> {
                           });
                         },
                         onLongPress: () async {
-                          Todo todo = await Navigator.of(context).push(
-                              MaterialPageRoute(
-                                  builder: (ctx) => TodoWritePage(todo: t)));
-                          setState(() {});
+                          getTodayTodo();
                         },
                         child: TodoCardWidget(t: t));
                   }),

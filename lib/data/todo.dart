@@ -3,8 +3,8 @@ class Todo {
   String memo;
   String category;
   int color;
-  int? done;
-  int? date;
+  int done;
+  int date;
   int? id;
 
   Todo(
@@ -12,7 +12,7 @@ class Todo {
       required this.memo,
       required this.category,
       required this.color,
-      this.done,
-      this.date,
+      required this.done,
+      required this.date,
       this.id});
 }

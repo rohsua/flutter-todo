@@ -18,7 +18,8 @@ class DatabaseHelper {
   }
 
   _initDatabase() async {
-    String path = join(await getDatabasesPath(), _databaseName);
+    var databasePath = await getDatabasesPath();
+    String path = join(databasePath, _databaseName);
 
     return await openDatabase(path,
         version: _databaseVersion, onCreate: _onCreate, onUpgrade: _onUpgrade);
@@ -29,6 +30,7 @@ class DatabaseHelper {
     CREATE TABLE IF NOT EXISTS $todoTable (
       id INTEGER PRIMARY KEY AUTOINCREMENT,
       date INTEGER DEFAULT 0,
+      done INTEGER DEFAULT 0,
       title String,
       memo String,
       color INTEGER,
@@ -47,9 +49,10 @@ class DatabaseHelper {
       Map<String, dynamic> row = {
         "title": todo.title,
         "date": todo.date,
+        "done": todo.done,
         "memo": todo.memo,
         "color": todo.color,
-        "category": todo.category,
+        "category": todo.category
       };
 
       return await db.insert(todoTable, row);
@@ -57,9 +60,10 @@ class DatabaseHelper {
       Map<String, dynamic> row = {
         "title": todo.title,
         "date": todo.date,
+        "done": todo.done,
         "memo": todo.memo,
         "color": todo.color,
-        "category": todo.category,
+        "category": todo.category
       };
 
       return await db
@@ -73,14 +77,15 @@ class DatabaseHelper {
 
     var queries = await db.query(todoTable);
     for (var q in queries) {
-      Todo(
+      todos.add(Todo(
         id: q["id"],
         title: q["title"],
         date: q["date"],
+        done: q["done"],
         memo: q["memo"],
         category: q["category"],
         color: q["color"],
-      );
+      ));
     }
 
     return todos;
@@ -93,14 +98,15 @@ class DatabaseHelper {
     var queries =
         await db.query(todoTable, where: "date = ?", whereArgs: [date]);
     for (var q in queries) {
-      Todo(
+      todos.add(Todo(
         id: q["id"],
         title: q["title"],
         date: q["date"],
+        done: q["done"],
         memo: q["memo"],
         category: q["category"],
         color: q["color"],
-      );
+      ));
     }
 
     return todos;
