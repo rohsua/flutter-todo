@@ -95,38 +95,49 @@ class _MyHomePageState extends State<MyHomePage> {
                   children: List.generate(undone.length, (_idx) {
                     Todo t = undone[_idx];
 
-                    return Container(
-                        decoration: BoxDecoration(
-                            color: Color(t.color),
-                            borderRadius: BorderRadius.circular(16)),
-                        padding:
-                            EdgeInsets.symmetric(vertical: 12, horizontal: 10),
-                        margin:
-                            EdgeInsets.symmetric(vertical: 8, horizontal: 20),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    return InkWell(
+                        onTap: () {
+                          setState(() {
+                            if (t.done == 0) {
+                              t.done = 1;
+                            } else if (t.done == 1) {
+                              t.done = 0;
+                            }
+                          });
+                        },
+                        child: Container(
+                            decoration: BoxDecoration(
+                                color: Color(t.color),
+                                borderRadius: BorderRadius.circular(16)),
+                            padding: EdgeInsets.symmetric(
+                                vertical: 12, horizontal: 10),
+                            margin: EdgeInsets.symmetric(
+                                vertical: 8, horizontal: 20),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                Text(
-                                  t.title,
-                                  style: TextStyle(
-                                      fontSize: 18,
-                                      color: Colors.white,
-                                      fontWeight: FontWeight.bold),
+                                Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Text(
+                                      t.title,
+                                      style: TextStyle(
+                                          fontSize: 18,
+                                          color: Colors.white,
+                                          fontWeight: FontWeight.bold),
+                                    ),
+                                    Text(t.done == 0 ? "미완료" : "완료",
+                                        style: TextStyle(
+                                            fontSize: 18, color: Colors.white))
+                                  ],
                                 ),
-                                Text(t.done == 0 ? "미완료" : "완료",
+                                Container(height: 8),
+                                Text(t.memo,
                                     style: TextStyle(
                                         fontSize: 18, color: Colors.white))
                               ],
-                            ),
-                            Container(height: 8),
-                            Text(t.memo,
-                                style: TextStyle(
-                                    fontSize: 18, color: Colors.white))
-                          ],
-                        ));
+                            )));
                   }),
                 ));
               } else if (idx == 2) {
