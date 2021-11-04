@@ -60,9 +60,9 @@ class _MyHomePageState extends State<MyHomePage> {
             PreferredSize(child: AppBar(), preferredSize: Size.fromHeight(0)),
         floatingActionButton: FloatingActionButton(
           child: Icon(Icons.add, color: Colors.white),
-          onPressed: () {
+          onPressed: () async {
             // todo: 화면 이동
-            Navigator.of(context).push(MaterialPageRoute(
+            Todo todo = await Navigator.of(context).push(MaterialPageRoute(
                 builder: (ctx) => TodoWritePage(
                       todo: Todo(
                           title: "",
@@ -72,6 +72,9 @@ class _MyHomePageState extends State<MyHomePage> {
                           done: 0,
                           date: Utils.getFormatTime(DateTime.now())),
                     )));
+            setState(() {
+              todos.add(todo);
+            });
           },
         ),
         body: ListView.builder(

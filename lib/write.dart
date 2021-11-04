@@ -27,7 +27,12 @@ class _TodoWritePageState extends State<TodoWritePage> {
         appBar: AppBar(
           actions: [
             TextButton(
-                onPressed: () {},
+                onPressed: () {
+                  widget.todo.title = nameController.text;
+                  widget.todo.memo = memoController.text;
+
+                  Navigator.of(context).pop(widget.todo);
+                },
                 child: Text(
                   "저장",
                   style: TextStyle(color: Colors.white),
