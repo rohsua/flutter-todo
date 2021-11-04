@@ -105,39 +105,7 @@ class _MyHomePageState extends State<MyHomePage> {
                             }
                           });
                         },
-                        child: Container(
-                            decoration: BoxDecoration(
-                                color: Color(t.color),
-                                borderRadius: BorderRadius.circular(16)),
-                            padding: EdgeInsets.symmetric(
-                                vertical: 12, horizontal: 10),
-                            margin: EdgeInsets.symmetric(
-                                vertical: 8, horizontal: 20),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Text(
-                                      t.title,
-                                      style: TextStyle(
-                                          fontSize: 18,
-                                          color: Colors.white,
-                                          fontWeight: FontWeight.bold),
-                                    ),
-                                    Text(t.done == 0 ? "미완료" : "완료",
-                                        style: TextStyle(
-                                            fontSize: 18, color: Colors.white))
-                                  ],
-                                ),
-                                Container(height: 8),
-                                Text(t.memo,
-                                    style: TextStyle(
-                                        fontSize: 18, color: Colors.white))
-                              ],
-                            )));
+                        child: TodoCardWidget(t: t));
                   }),
                 ));
               } else if (idx == 2) {
@@ -155,39 +123,17 @@ class _MyHomePageState extends State<MyHomePage> {
                     child: Column(
                   children: List.generate(done.length, (_idx) {
                     Todo t = done[_idx];
-
-                    return Container(
-                        decoration: BoxDecoration(
-                            color: Color(t.color),
-                            borderRadius: BorderRadius.circular(16)),
-                        padding:
-                            EdgeInsets.symmetric(vertical: 12, horizontal: 10),
-                        margin:
-                            EdgeInsets.symmetric(vertical: 8, horizontal: 20),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Text(
-                                  t.title,
-                                  style: TextStyle(
-                                      fontSize: 18,
-                                      color: Colors.white,
-                                      fontWeight: FontWeight.bold),
-                                ),
-                                Text(t.done == 0 ? "미완료" : "완료",
-                                    style: TextStyle(
-                                        fontSize: 18, color: Colors.white))
-                              ],
-                            ),
-                            Container(height: 8),
-                            Text(t.memo,
-                                style: TextStyle(
-                                    fontSize: 18, color: Colors.white))
-                          ],
-                        ));
+                    return InkWell(
+                        onTap: () {
+                          setState(() {
+                            if (t.done == 0) {
+                              t.done = 1;
+                            } else if (t.done == 1) {
+                              t.done = 0;
+                            }
+                          });
+                        },
+                        child: TodoCardWidget(t: t));
                   }),
                 ));
               }
@@ -201,6 +147,42 @@ class _MyHomePageState extends State<MyHomePage> {
             BottomNavigationBarItem(
                 icon: Icon(Icons.assignment_outlined), label: "기록"),
             BottomNavigationBarItem(icon: Icon(Icons.more_horiz), label: "더보기")
+          ],
+        ));
+  }
+}
+
+class TodoCardWidget extends StatelessWidget {
+  final Todo t;
+
+  TodoCardWidget({Key? key, required this.t}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+        decoration: BoxDecoration(
+            color: Color(t.color), borderRadius: BorderRadius.circular(16)),
+        padding: EdgeInsets.symmetric(vertical: 12, horizontal: 10),
+        margin: EdgeInsets.symmetric(vertical: 8, horizontal: 20),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  t.title,
+                  style: TextStyle(
+                      fontSize: 18,
+                      color: Colors.white,
+                      fontWeight: FontWeight.bold),
+                ),
+                Text(t.done == 0 ? "미완료" : "완료",
+                    style: TextStyle(fontSize: 18, color: Colors.white))
+              ],
+            ),
+            Container(height: 8),
+            Text(t.memo, style: TextStyle(fontSize: 18, color: Colors.white))
           ],
         ));
   }
