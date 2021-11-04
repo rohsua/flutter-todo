@@ -22,6 +22,14 @@ class _TodoWritePageState extends State<TodoWritePage> {
   int categoryIndex = 0;
 
   @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    nameController.text = widget.todo.title;
+    memoController.text = widget.todo.memo;
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
